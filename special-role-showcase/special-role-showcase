@@ -1,0 +1,105 @@
+# special role showcase
+
+## Summary
+
+Displays a scrolling list of names in an overlay window.
+
+## Setup
+
+- Define the custom role for these groups. E.g. Keep of the Forge
+- Setup a new Channel Reward. Set a reward name and a meaningful description.
+- Manage effects for when the reward is purchased:
+  - Update Viewer Roles, add user to role
+  - Set user metadata
+    - `$math[$userMetadata[$user, forgeKeeperCount] + 1]`
+    - in this example, forgeKeeperCount is being used to manage how many times a user has purchased this role.
+
+That is all for settings, now to to setup the command to show the list of special role users
+
+- First, setup a command to clear this list. This is a good 'oh shit' measure if something goes wrong.
+  - Add command, Clear Effects, and select 'Overlay Effects'
+- Create a new command used to show the list. E.g. !keepersList
+
+Add an 'Evaluate JavaScript' effect
+
+```js
+// gets a list of the first 100 users with forgeKeepCount metadata
+const keepers = $rawTopMetadata["forgeKeeperCount", 100] 
+// format the list of data to formatted string of data
+const list = keepers.reduce((acc,data) => acc + `${data.userDisplayName} ${data.amount}x\\n`, '');
+// return the data
+return list
+```
+
+// Output variable used: `$effectOutput[keepersList]`
+
+Add a 'Show HTML' Effect
+
+Note, my html skills are weak, but this looked acceptable.
+
+- Show diration: 15 seconds
+- Enter: 'Fade In'
+- INBETWEEN: 'None'
+- Exit: 'Fade Out'
+
+```html
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
+  .scroll-container {
+    width: 600px;
+    height: 650px;
+    background: rgba(0,0,0,0.95);
+    border: 2px solid #FFFFFF;
+    border-radius: 8px;
+    overflow: hidden;
+    box-sizing: border-box;
+    padding: 10px;
+    margin-left: 200px;
+    margin-top: 150px;
+  }
+  .title {
+    color: #ffffff;
+    font-family: "Lora", sans-serif;
+    font-size: 56px;
+    font-weight: 400;
+    text-align: center;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #ffffff;
+    padding-bottom: 8px;
+  }
+  .scroll-viewport {
+    position: relative;
+    flex: 1 1 auto;
+    overflow: hidden;
+    margin-top: 10px;
+  }
+  .scroll-content {
+    color: #ffffff;
+    font-size: 48px;
+    font-family: "Lora", sans-serif;
+   font-weight:400; 
+    line-height: 1.4;
+    white-space: pre-line;
+    text-align: center;
+    animation: scroll-up 15s linear infinite;
+  }
+  @keyframes scroll-up {
+    0% {
+      transform: translateY(75%);
+    }
+    100% {
+      transform: translateY(-95%);
+    }
+  }
+</style>
+
+<div class="scroll-container">
+  <div class="title">Keepers of the Forge</div>
+  <div class="scroll-viewport">
+    <div class="scroll-content">
+      $effectOutput[keepersList]
+    </div>
+  </div>
+</div>
+
+```
