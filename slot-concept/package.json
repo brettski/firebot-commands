@@ -1,0 +1,18 @@
+{
+  "name": "dwarvenslots",
+  "version": "0.1.0",
+  "description": "Dwarven-based chat slots",
+  "keywords": [
+    "dwarven",
+    "slots",
+    "chat",
+    "game"
+  ],
+  "license": "MIT",
+  "author": "brettski",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
