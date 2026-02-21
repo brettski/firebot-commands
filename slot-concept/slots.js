@@ -1,25 +1,26 @@
-// Slots concept
+// Slots concept curently in use
+
 const baseWheelItems = ["🪨", "⛏️", "🍺", "⛰️", "🪓", "🧔‍♀️", "💎"];
 const wheelItems = [
   "🪨",
+  "🧔‍♀️",
   "🪨",
-  "🪨",
-  "🪨",
   "⛏️",
+  "🪓",
   "⛏️",
-  "⛏️",
-  "⛏️",
-  "🍺",
-  "🍺",
-  "🍺",
-  "🍺",
   "⛰️",
+  "⛏️",
+  "🍺",
+  "🍺",
+  "🧔‍♀️",
+  "🪨",
   "⛰️",
+  "🪨",
+  "🍺",
+  "⛏️",
+  "🍺",
   "⛰️",
   "🪓",
-  "🪓",
-  "🧔‍♀️",
-  "🧔‍♀️",
   "💎",
 ];
 
@@ -55,20 +56,20 @@ function getWinMultiplier(wheels) {
   const rock = getCount(wheels, "🪨");
 
   // console.log(gem, beard, axe, mountain, beer, pick, rock);
-
+  
   let winMultiplier = 0;
   if (beer === 2 && pick === 1) {
-    winMultiplier = 1;
+    winMultiplier = 0.25;
   } else if (pick === 2 && beer === 1) {
-    winMultiplier = 3;
-  } else if (rock === 3) {
-    winMultiplier = 1;
+    winMultiplier = 2;
+  // } else if (rock === 3) {
+  //   winMultiplier = 1;
   } else if (pick === 3) {
     winMultiplier = 10;
   } else if (beer === 3) {
-    winMultiplier = 20;
+    winMultiplier = 25;
   } else if (mountain == 3) {
-    winMultiplier = 50;
+    winMultiplier = 30;
   } else if (axe == 3) {
     winMultiplier = 200;
   } else if (beard === 3) {
@@ -78,13 +79,13 @@ function getWinMultiplier(wheels) {
   } else if (axe === 2) {
     winMultiplier = 20;
   } else if (beer === 2) {
-    winMultiplier = 4;
+    winMultiplier = 3;
   } else if (axe === 1) {
     winMultiplier = 3;
   } else if (beer === 1) {
-    winMultiplier = 2;
-  } else if (rock >= 1) {
     winMultiplier = 1;
+  } else if (rock >= 1) {
+    winMultiplier = 0.5;
   }
 
   return winMultiplier;
@@ -98,7 +99,7 @@ function spin() {
     wheelItems[getRandomInt(0, wheelSize)],
   ];
 
-  const wheelsView = `[ ${result[0]} - ${result[1]} - ${result[2]} ]`;
+  const wheelsView = `[ ${result[0]} | ${result[1]} | ${result[2]} ]`;
   console.log(wheelsView);
   const winMultiplier = getWinMultiplier(result);
   console.log(`You win ${winMultiplier}x`);
